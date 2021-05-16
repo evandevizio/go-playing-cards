@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
 	"time"
@@ -80,6 +81,17 @@ func PrintDeck(deck [52]Card) {
 	fmt.Print("\n")
 }
 
+func ShuffleDeck(deck [52]Card) [52]Card {
+	r := rand.New(rand.NewSource(time.Now().Unix())) // Seed
+	shuffled := deck
+	for i, randIndex := range r.Perm(len(deck)) {
+		shuffled[i] = deck[randIndex]
+	}
+	fmt.Println("The deck has been shuffled." + "\n")
+	time.Sleep(2 * time.Second)
+	return shuffled
+}
+
 func main() {
 	deck := NewDeck() // initial deck
 
@@ -98,7 +110,7 @@ func main() {
 		case "D":
 			PrintDeck(deck)
 		case "S":
-			// shuffle deck
+			deck = ShuffleDeck(deck)
 		case "N":
 			deck = NewDeck()
 		case "Q":

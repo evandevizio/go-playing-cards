@@ -14,8 +14,8 @@ type Card struct {
 	symbol string // A, 2, 3, ... , J, Q, K
 }
 
-// Create a new factory default deck of cards, no jokers.
 func NewDeck() [52]Card {
+	// Create a new factory default deck of cards in order, no jokers.
 	var newDeck [52]Card
 
 	for s := 0; s <= 12; s++ {
@@ -45,7 +45,7 @@ func FormatDeck(deck *[52]Card) { // Delegate symbols
 		if (deck[i].number != 1) && (deck[i].number != 11) &&
 			(deck[i].number != 12) && (deck[i].number != 13) {
 			deck[i].symbol = strconv.Itoa(deck[i].number)
-		} else {
+		} else { // This deals with face cards
 			switch deck[i].number {
 			case 1:
 				deck[i].symbol = "A"
@@ -82,10 +82,10 @@ func PrintDeck(deck [52]Card) {
 }
 
 func ShuffleDeck(deck [52]Card) [52]Card {
+	var shuffled [52]Card
 	r := rand.New(rand.NewSource(time.Now().Unix())) // Seed
-	shuffled := deck
 	for i, randIndex := range r.Perm(len(deck)) {
-		shuffled[i] = deck[randIndex]
+		shuffled[i] = deck[randIndex] // Randomize the elements of deck
 	}
 	fmt.Println("The deck has been shuffled." + "\n")
 	time.Sleep(2 * time.Second)
@@ -93,7 +93,7 @@ func ShuffleDeck(deck [52]Card) [52]Card {
 }
 
 func main() {
-	deck := NewDeck() // initial deck
+	deck := NewDeck() // Initial deck
 
 	for {
 		var input string
